@@ -27,6 +27,51 @@ function App() {
     }
   };
 
+  const renderBarChart = () => {
+    return (
+      <BarChart width={800} height={400} data={filteredData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
+        <YAxis tickFormatter={(value) => `RM${value}`} />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="ron95" fill="#FDDA0D" name="RON95" />
+        <Bar dataKey="ron97" fill="green" name="RON97" />
+        <Bar dataKey="diesel" fill="black" name="DIESEL" />
+      </BarChart>
+    );
+  };
+
+  const renderLineChart = () => {
+    return (
+      <LineChart width={800} height={400} data={filteredData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
+        <YAxis tickFormatter={(value) => `RM${value}`} />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="ron95" stroke="#FDDA0D" name="RON95" />
+        <Line type="monotone" dataKey="ron97" stroke="green" name="RON97" />
+        <Line type="monotone" dataKey="diesel" stroke="black" name="DIESEL" />
+      </LineChart>
+    );
+  };
+
+  /* 
+  const renderLineChart2 = () => {
+    return (
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie dataKey="ron95" data={filteredData} cx="25%" cy="50%" innerRadius={40} outerRadius={80} fill="#FDDA0D" label />
+          <Pie dataKey="ron97" data={filteredData} cx="50%" cy="50%" innerRadius={40} outerRadius={80} fill="green" label />
+          <Pie dataKey="diesel" data={filteredData} cx="75%" cy="50%" innerRadius={40} outerRadius={80} fill="black" label />
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    );
+  };
+  */
+
   const filteredData = fuelPriceData?.filter((item: any) => item.ron95 > 0 || item.ron97 > 0 || item.diesel > 0);
 
   return (
@@ -36,29 +81,8 @@ function App() {
           <p>Loading...</p>
         ) : (
           <>
-            {/* Render combined bar chart */}
-            <BarChart width={800} height={400} data={filteredData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis tickFormatter={(value) => `RM${value}`} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="ron95" fill="#FDDA0D" name="RON95" />
-              <Bar dataKey="ron97" fill="green" name="RON97" />
-              <Bar dataKey="diesel" fill="black" name="DIESEL" />
-            </BarChart>
-
-            {/* Render combined line chart */}
-            <LineChart width={800} height={400} data={filteredData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis tickFormatter={(value) => `RM${value}`} />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="ron95" stroke="#FDDA0D" name="RON95" />
-              <Line type="monotone" dataKey="ron97" stroke="green" name="RON97" />
-              <Line type="monotone" dataKey="diesel" stroke="black" name="DIESEL" />
-            </LineChart>
+            {renderBarChart()}
+            {renderLineChart()}
           </>
         )}
       </div>
