@@ -5,64 +5,61 @@
 import { useState, useEffect } from "react";
 
 function App() {
-  // Using state to manage fuel price data and loading state
-  const [fuelPriceData, setFuelPriceData] = useState<any>(null); // State for fuel price data
-  const [loading, setLoading] = useState<boolean>(true); // State for loading indicator
+  // Define state variables for fuel price data & loading indicator
+  const [fuelPriceData, setFuelPriceData] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false); // Start with loading as false
 
-  // Using useEffect to fetch data when component mounts
   useEffect(() => {
-    fetchData(); // Fetch data when component mounts
+    // Fetch data when component mounts
+    fetchData();
   }, []);
 
-  // Async function to fetch data from API
+  // Function to fetch data from API
   const fetchData = async () => {
+    setLoading(true); // Set loading to true while fetching data
     try {
-      // Fetching data from API endpoint
-      const response = await fetch("https://api.data.gov.my/data-catalogue?id=fuelprice");
+      // Add a cache-busting parameter to the API URL to ensure fresh data
+      const response = await fetch("https://api.data.gov.my/data-catalogue?id=fuelprice&timestamp=" + Date.now());
 
-      // Check if the response is successful
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
 
-      // Parsing response to JSON format
+      // Parse response to JSON format
       const data = await response.json();
-
-      // Setting fetched data to state and updating loading state
+      // Set fetched data to state
       setFuelPriceData(data);
-      setLoading(false); // Set loading to false once data is fetched
     } catch (error) {
-      console.error("Error fetching data:", error); // Log error if fetching fails
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Set loading to false regardless of success or failure
     }
   };
 
-  // Rendering JSX (JavaScript XML) = write HTML code within JavaScript
+  // Render JSX (JavaScript XML) = write HTML code within JavaScript
   return (
     <div className="App">
       <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Fuel Price Information</h1>
-
       {/* Conditional rendering based on loading state */}
       <div className="data-container">
         {/* If loading is true, display loading message */}
         {loading ? (
           <p>Loading...</p>
         ) : (
-          // If loading is false, render fetched data
-          <div>
-            {/* Mapping over the fetched data and displaying each item */}
-            {fuelPriceData.map((item: any, index: number) => (
-              <div key={index} style={{ marginBottom: "20px" }}>
-                {/* Displaying date */}
-                <p>Date: {item.date}</p>
-                {/* Displaying RON95 price */}
-                <p>RON95 Price: {item.ron95}</p>
-                {/* Displaying RON97 price */}
-                <p>RON97 Price: {item.ron97}</p>
-                {/* Displaying diesel price */}
-                <p>Diesel Price: {item.diesel}</p>
-              </div>
-            ))}
-          </div>
+          // If loading is false and data is available, render fetched data
+          fuelPriceData &&
+          fuelPriceData.map((item: any, index: number) => (
+            <div key={index} style={{ marginBottom: "20px" }}>
+              {/* Displaying date */}
+              <p>Date: {item.date}</p>
+              {/* Displaying RON95 price */}
+              <p>RON95 Price: {item.ron95}</p>
+              {/* Displaying RON97 price */}
+              <p>RON97 Price: {item.ron97}</p>
+              {/* Displaying diesel price */}
+              <p>Diesel Price: {item.diesel}</p>
+            </div>
+          ))
         )}
       </div>
     </div>
