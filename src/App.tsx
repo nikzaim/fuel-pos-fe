@@ -1,4 +1,5 @@
 import FuelPrice from "./components/FuelPrice";
+import Ron97Chart from "./components/Ron97Chart";
 // import axios from "axios";
 // import { useEffect, useState } from "react";
 
@@ -54,8 +55,8 @@ function App() {
   return (
     <>
       <center>
-        <div className="px-20">{/* <FuelPrice></FuelPrice> */}</div>
         <FuelPrice />
+        <Ron97Chart />
       </center>
     </>
   );
