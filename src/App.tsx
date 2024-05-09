@@ -1,65 +1,65 @@
-// useState is used to define two state variables: fuelPriceData and loading
-// useEffect is a React hook used for performing side effects in functional components.
-
-// Importing the useState and useEffect hooks from the React library
 import { useState, useEffect } from "react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line } from "recharts";
 
 function App() {
-  // Define state variables for fuel price data & loading indicator
   const [fuelPriceData, setFuelPriceData] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false); // Start with loading as false
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    // Fetch data when component mounts
     fetchData();
   }, []);
 
-  // Function to fetch data from API
   const fetchData = async () => {
-    setLoading(true); // Set loading to true while fetching data
+    setLoading(true);
     try {
-      // Add a cache-busting parameter to the API URL to ensure fresh data
       const response = await fetch("https://api.data.gov.my/data-catalogue?id=fuelprice&timestamp=" + Date.now());
 
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
 
-      // Parse response to JSON format
       const data = await response.json();
-      // Set fetched data to state
       setFuelPriceData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      setLoading(false); // Set loading to false regardless of success or failure
+      setLoading(false);
     }
   };
 
-  // Render JSX (JavaScript XML) = write HTML code within JavaScript
+  const filteredData = fuelPriceData?.filter((item: any) => item.ron95 > 0 || item.ron97 > 0 || item.diesel > 0);
+
   return (
     <div className="App">
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Fuel Price Information</h1>
-      {/* Conditional rendering based on loading state */}
       <div className="data-container">
-        {/* If loading is true, display loading message */}
         {loading ? (
           <p>Loading...</p>
         ) : (
-          // If loading is false and data is available, render fetched data
-          fuelPriceData &&
-          fuelPriceData.map((item: any, index: number) => (
-            <div key={index} style={{ marginBottom: "20px" }}>
-              {/* Displaying date */}
-              <p>Date: {item.date}</p>
-              {/* Displaying RON95 price */}
-              <p>RON95 Price: {item.ron95}</p>
-              {/* Displaying RON97 price */}
-              <p>RON97 Price: {item.ron97}</p>
-              {/* Displaying diesel price */}
-              <p>Diesel Price: {item.diesel}</p>
-            </div>
-          ))
+          <>
+            {/* Render combined bar chart */}
+            <BarChart width={800} height={400} data={filteredData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis tickFormatter={(value) => `RM${value}`} />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="ron95" fill="#FDDA0D" name="RON95" />
+              <Bar dataKey="ron97" fill="green" name="RON97" />
+              <Bar dataKey="diesel" fill="black" name="DIESEL" />
+            </BarChart>
+
+            {/* Render combined line chart */}
+            <LineChart width={800} height={400} data={filteredData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis tickFormatter={(value) => `RM${value}`} />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="ron95" stroke="#FDDA0D" name="RON95" />
+              <Line type="monotone" dataKey="ron97" stroke="green" name="RON97" />
+              <Line type="monotone" dataKey="diesel" stroke="black" name="DIESEL" />
+            </LineChart>
+          </>
         )}
       </div>
     </div>
