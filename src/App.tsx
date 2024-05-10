@@ -29,28 +29,43 @@ function App() {
 
   const AreaChartGraph = () => {
     return (
-      <AreaChart width={800} height={400} data={filteredData}>
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#FFB74D" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#FFB74D" stopOpacity={0} />
-          </linearGradient>
-          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#81C784" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#81C784" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <XAxis dataKey="date" />
-        <YAxis domain={[0, "auto"]} />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Tooltip />
-        <Area type="monotone" dataKey="ron95" stroke="#FFB74D" fillOpacity={0.8} fill="url(#colorUv)" name="RON95" />
-        <Area type="monotone" dataKey="ron97" stroke="#81C784" fillOpacity={0.8} fill="url(#colorPv)" name="RON97" />
-        <Area type="monotone" dataKey="diesel" stroke="#333333" fillOpacity={0.8} fill="url(#colorUv)" name="DIESEL" />
-        <Legend />
-      </AreaChart>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <AreaChart width={800} height={400} data={filteredData} style={{ marginTop: "13%" }}>
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#FFB74D" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#FFB74D" stopOpacity={0} />
+            </linearGradient>
+            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#81C784" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#81C784" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <XAxis dataKey="date" />
+          <YAxis domain={[0, "auto"]} />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip />
+          <Area type="monotone" dataKey="ron95" stroke="#FFB74D" fillOpacity={0.8} fill="url(#colorUv)" name="RON95" />
+          <Area type="monotone" dataKey="ron97" stroke="#81C784" fillOpacity={0.8} fill="url(#colorPv)" name="RON97" />
+          <Area type="monotone" dataKey="diesel" stroke="#333333" fillOpacity={0.8} fill="url(#colorUv)" name="DIESEL" />
+          <Legend />
+        </AreaChart>
+      </div>
     );
   };
+
+  // Testing
+  // const pieChart = () => {
+  //   return (
+  //     <ResponsiveContainer width="100%" height={400}>
+  //       <PieChart>
+  //         <Pie dataKey="ron97" isAnimationActive={false} data={filteredData} cx="50%" cy="50%" outerRadius={80} fill="#8884d8" label />
+  //         <Pie dataKey="ron95" data={filteredData} cx="50%" cy="50%" innerRadius={40} outerRadius={80} fill="#82ca9d" />
+  //         <Tooltip />
+  //       </PieChart>
+  //     </ResponsiveContainer>
+  //   );
+  // };
 
   const filteredData = fuelPriceData?.filter((item: any) => item.ron95 > 1 || item.ron97 > 1 || item.diesel > 1);
 
