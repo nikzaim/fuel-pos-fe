@@ -1,77 +1,44 @@
+// useState: Allows functional components to manage state.
+// useEffect: Handles side effects in functional components.
 import { useState, useEffect } from "react";
-import { XAxis, YAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area } from "recharts";
+import AreaChartGraph from "./AreaChartGraph";
 
 function App() {
+  // State for storing fuel price data and loading state
   const [fuelPriceData, setFuelPriceData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  // Fetch data when component mounts
   useEffect(() => {
     fetchData();
   }, []);
 
+  // Function to fetch fuel price data
   const fetchData = async () => {
-    setLoading(true);
+    setLoading(true); // Set loading state to true while fetching data
     try {
       const response = await fetch("https://api.data.gov.my/data-catalogue?id=fuelprice&timestamp=" + Date.now());
 
       if (!response.ok) {
-        throw new Error("Failed to fetch data");
+        throw new Error("Failed to fetch data"); // Throw error if fetching data fails
       }
 
-      const data = await response.json();
-      setFuelPriceData(data);
+      const data = await response.json(); // Parse response as JSON
+      setFuelPriceData(data); // Set fuel price data state
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error); // Log error if fetching data fails
     } finally {
-      setLoading(false);
+      setLoading(false); // Set loading state to false regardless of success or failure
     }
   };
 
-  const AreaChartGraph = () => {
-    return (
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <AreaChart width={800} height={400} data={filteredData} style={{ marginTop: "13%" }}>
-          <defs>
-            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#FFB74D" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#FFB74D" stopOpacity={0} />
-            </linearGradient>
-            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#81C784" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#81C784" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <XAxis dataKey="date" />
-          <YAxis domain={[0, "auto"]} />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Area type="monotone" dataKey="ron95" stroke="#FFB74D" fillOpacity={0.8} fill="url(#colorUv)" name="RON95" />
-          <Area type="monotone" dataKey="ron97" stroke="#81C784" fillOpacity={0.8} fill="url(#colorPv)" name="RON97" />
-          <Area type="monotone" dataKey="diesel" stroke="#333333" fillOpacity={0.8} fill="url(#colorUv)" name="DIESEL" />
-          <Legend />
-        </AreaChart>
-      </div>
-    );
-  };
-
-  // Testing
-  // const pieChart = () => {
-  //   return (
-  //     <ResponsiveContainer width="100%" height={400}>
-  //       <PieChart>
-  //         <Pie dataKey="ron97" isAnimationActive={false} data={filteredData} cx="50%" cy="50%" outerRadius={80} fill="#8884d8" label />
-  //         <Pie dataKey="ron95" data={filteredData} cx="50%" cy="50%" innerRadius={40} outerRadius={80} fill="#82ca9d" />
-  //         <Tooltip />
-  //       </PieChart>
-  //     </ResponsiveContainer>
-  //   );
-  // };
-
+  // Filtered data based on condition (ron95 > 1 || ron97 > 1 || diesel > 1)
   const filteredData = fuelPriceData?.filter((item: any) => item.ron95 > 1 || item.ron97 > 1 || item.diesel > 1);
 
   return (
     <div className="App">
-      <div className="data-container">{loading ? <p>Loading...</p> : <>{AreaChartGraph()}</>}</div>
+      {/* Display loading message while fetching data, otherwise render AreaChartGraph component */}
+      <div className="data-container">{loading ? <p>Loading...</p> : <AreaChartGraph filteredData={filteredData} />}</div>
     </div>
   );
 }
