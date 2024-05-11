@@ -17,13 +17,13 @@ This project is a React.js application built with TypeScript and Vite. It fetche
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/fuel-price-dashboard.git
+    git clone https://github.com/zulhusni2003/fuel-pos-fe
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd fuel-price-dashboard
+    cd fuel-pos-fe
     ```
 
 3. Install dependencies:
