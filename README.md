@@ -17,7 +17,7 @@ This project is a React.js application built with TypeScript and Vite. It fetche
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/zulhusni2003/fuel-pos-fe
+    git clone https://github.com/zulhusni2003/fuel-pos-fe.git
     ```
 
 2. Navigate to the project directory:
