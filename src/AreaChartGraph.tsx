@@ -10,9 +10,9 @@ interface Props {
 // Props: Represents the type of props (properties) that the component expects to receive.
 const AreaChartGraph: React.FC<Props> = ({ filteredData }) => {
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div className="flex justify-center mt-10">
       {/* Area chart component */}
-      <AreaChart width={800} height={400} data={filteredData} style={{ marginTop: "13%" }}>
+      <AreaChart width={800} height={400} data={filteredData} className="mt-5">
         {/* Define gradients */}
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
