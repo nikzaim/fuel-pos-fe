@@ -46,12 +46,12 @@ function App() {
             Stay updated with the latest fuel prices in Malaysia
             <br />
             Created by
-            <a href="https://github.com/zulhusni" className="font-extrabold">
+            <a href="https://github.com/zulhusni2003" className="font-extrabold" target="_blank">
               {" "}
               zulhusni{" "}
             </a>
             &
-            <a href="https://github.com/zaim" className="font-extrabold">
+            <a href="https://github.com/nikzaim" className="font-extrabold" target="_blank">
               {" "}
               zaim{" "}
             </a>
