@@ -17,11 +17,6 @@ const Header = () => {
           {" "}
           zulhusni{" "}
         </a>
-        &
-        <a href="https://github.com/nikzaim" className="font-extrabold text-blue-500" target="_blank" rel="noopener noreferrer">
-          {" "}
-          zaim{" "}
-        </a>
       </p>
     </header>
   );
