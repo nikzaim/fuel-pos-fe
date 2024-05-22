@@ -19,7 +19,6 @@ const AreaChartGraph: React.FC<Props> = ({ filteredData, title, explanation }) =
       <div className="flex justify-center mt-3">
         {/* Area chart component */}
         <AreaChart width={800} height={400} data={filteredData}>
-          {/* Define gradients */}
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#FFB74D" stopOpacity={0.8} />
